@@ -4,7 +4,7 @@ export interface GroceryListState {
   setGroceryList: (list: GroceryListItem[]) => void;
 }
 
-interface GroceryListItem {
+export interface GroceryListItem {
   itemName: string;
   price: string;
   id: number;

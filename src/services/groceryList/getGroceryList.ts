@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 export const useGetGroceryList = () => {
   const { appEnvironment } = useAppEnvironment();
-  const { setGroceryList } = useGroceryListStore();
+  const { setGroceryList, groceryList } = useGroceryListStore();
   const { data, isError, isSuccess } = useQuery({
     queryKey: ['groceryList'],
     queryFn: async () => {
@@ -26,4 +26,6 @@ export const useGetGroceryList = () => {
       console.log(isError);
     }
   }, [isError]);
+
+  return { groceryList };
 };
