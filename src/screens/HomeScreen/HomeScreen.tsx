@@ -11,10 +11,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Box } from '@/components/ui/box';
 import { Divider } from '@/components/ui/divider';
 import { GroceryListItem } from '@/src/components/GroceryListItem/GroceryListItem';
+import { useDeleteGroceryList } from '@/src/services/groceryList/deleteGroceryListItem';
+
+const ItemSeperator = () => <Divider className="bg-primary-200" />;
 
 export const HomeScreen = () => {
   const [isOpen, setIsOpen] = useState(false);
   const insets = useSafeAreaInsets();
+  const { onDelete } = useDeleteGroceryList();
   const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { itemName: undefined, price: undefined },
@@ -35,7 +39,7 @@ export const HomeScreen = () => {
     return (
       <GroceryListItem
         item={item}
-        onPressDelete={() => undefined}
+        onPressDelete={onDelete}
         onPressEdit={() => undefined}
       />
     );
@@ -52,7 +56,7 @@ export const HomeScreen = () => {
           data={groceryList}
           renderItem={rendeItem}
           keyExtractor={item => item.id?.toString()}
-          ItemSeparatorComponent={() => <Divider className="bg-primary-200" />}
+          ItemSeparatorComponent={ItemSeperator}
         />
       </Box>
       <ModalComponent

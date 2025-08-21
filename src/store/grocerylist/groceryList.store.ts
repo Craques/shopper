@@ -5,4 +5,5 @@ export const useGroceryListStore = create<GroceryListState>(set => ({
   groceryList: [],
   loading: false,
   setGroceryList: groceryList => set({ groceryList }),
+  setLoading: loading => set({ loading }),
 }));
