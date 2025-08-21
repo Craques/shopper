@@ -2,15 +2,15 @@ import { ModalComponent } from '@/src/components/Modal';
 import { NavigationBar } from '@/src/components/NavigationBar';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { ListRenderItem, FlatList, View } from 'react-native';
+import { ListRenderItem, FlatList } from 'react-native';
 import { schema } from './schema';
 import { useForm } from 'react-hook-form';
 import { useGetGroceryList } from '@/src/services/groceryList/getGroceryList';
-import { GroceryListItem } from '@/src/store/grocerylist/groceryList.types';
-import { Text } from '@/components/ui/text';
+import { GroceryListItem as TGroceryListItem } from '@/src/store/grocerylist/groceryList.types';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Box } from '@/components/ui/box';
 import { Divider } from '@/components/ui/divider';
+import { GroceryListItem } from '@/src/components/GroceryListItem/GroceryListItem';
 
 export const HomeScreen = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,8 +31,14 @@ export const HomeScreen = () => {
 
   const { groceryList } = useGetGroceryList();
 
-  const rendeItem: ListRenderItem<GroceryListItem> = ({ item }) => {
-    return <Text>{item.itemName}</Text>;
+  const rendeItem: ListRenderItem<TGroceryListItem> = ({ item }) => {
+    return (
+      <GroceryListItem
+        item={item}
+        onPressDelete={() => undefined}
+        onPressEdit={() => undefined}
+      />
+    );
   };
 
   return (
