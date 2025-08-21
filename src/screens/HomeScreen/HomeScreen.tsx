@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Text, View } from 'react-native';
 import { schema } from './schema';
 import { useForm } from 'react-hook-form';
+import { useGetGroceryList } from '@/src/services/groceryList/getGroceryList';
 
 export const HomeScreen = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,8 @@ export const HomeScreen = () => {
   const onSubmit = () => {
     handleSubmit(() => undefined);
   };
+
+  useGetGroceryList();
   return (
     <View>
       <NavigationBar onPressAdd={toggleModal} />
