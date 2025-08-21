@@ -7,23 +7,18 @@ import {
 } from '@/components/ui/modal';
 import { ModalComponentProps } from './Modal.types';
 import { Heading } from '@/components/ui/heading';
-import { AlertCircleIcon, CloseIcon, Icon } from '@/components/ui/icon';
-import {
-  FormControl,
-  FormControlError,
-  FormControlErrorIcon,
-  FormControlErrorText,
-  FormControlLabel,
-  FormControlLabelText,
-} from '@/components/ui/form-control';
-import { Input, InputField } from '@/components/ui/input';
+import { CloseIcon, Icon } from '@/components/ui/icon';
 import { Button, ButtonText } from '@/components/ui/button';
 import { Divider } from '@/components/ui/divider';
+import { FormInput } from '../FormInput/FormInput';
+import { Box } from '@/components/ui/box';
 
 export const ModalComponent = ({
   title,
   isOpen,
   toggleModal,
+  control,
+  onSubmit,
 }: ModalComponentProps): React.ReactNode => {
   return (
     <Modal isOpen={isOpen}>
@@ -39,42 +34,27 @@ export const ModalComponent = ({
         </ModalHeader>
         <ModalCloseButton className="text-secondary-400" />
         <Divider className="bg-primary-300" style={{ marginTop: 8 }} />
-        <FormControl size="md" isInvalid style={{ marginTop: 16 }}>
-          <FormControlLabel>
-            <FormControlLabelText className="text-secondary-500">
-              Item Name
-            </FormControlLabelText>
-          </FormControlLabel>
-          <Input size="lg">
-            <InputField
-              className="text-secondary-500"
-              placeholder="Item Name"
-            />
-          </Input>
-          <FormControlError>
-            <FormControlErrorIcon as={AlertCircleIcon} />
-            <FormControlErrorText> Failed </FormControlErrorText>
-          </FormControlError>
-        </FormControl>
-        <FormControl size="md" style={{ marginTop: 8 }}>
-          <FormControlLabel>
-            <FormControlLabelText className="text-secondary-500">
-              Item Name
-            </FormControlLabelText>
-          </FormControlLabel>
-          <Input size="lg">
-            <InputField
-              className="text-secondary-500"
-              placeholder="Item Name"
-            />
-          </Input>
-          <FormControlError>
-            <FormControlErrorIcon as={AlertCircleIcon} />
-            <FormControlErrorText> Failed </FormControlErrorText>
-          </FormControlError>
-        </FormControl>
-
-        <Button size="lg" className="bg-secondary-0" style={{ marginTop: 16 }}>
+        <Box style={{ marginTop: 16 }} />
+        <FormInput
+          label="Item Name"
+          placeholder="Item Name"
+          name={'itemName'}
+          control={control}
+        />
+        <Box style={{ marginTop: 8 }} />
+        <FormInput
+          label="Price"
+          placeholder="Price"
+          name={'price'}
+          control={control}
+        />
+        <Box style={{ marginTop: 16 }} />
+        <Button
+          onPress={onSubmit}
+          size="lg"
+          className="bg-secondary-0"
+          style={{ marginTop: 16 }}
+        >
           <ButtonText className="text-primary-900">Add item</ButtonText>
         </Button>
       </ModalContent>

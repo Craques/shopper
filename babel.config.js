@@ -10,6 +10,7 @@ module.exports = {
       "tailwind.config": "./tailwind.config.js",
     }
   }],
-  'react-native-worklets/plugin'  
+  'react-native-worklets/plugin',
+  "@babel/plugin-transform-export-namespace-from"
   ]
 };
