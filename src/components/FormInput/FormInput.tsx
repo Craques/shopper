@@ -25,8 +25,6 @@ export const FormInput = ({
         field: { onBlur, onChange, value },
         fieldState: { error },
       }) => {
-        console.error(error);
-        console.log(value);
         return (
           <FormControl size="md" isInvalid={!!error}>
             <FormControlLabel>

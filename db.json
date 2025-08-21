@@ -1,0 +1,3 @@
+{
+    "groceryList": [{"itemName": "bread", "price": 1, "id": 1, "bought": false}]
+}

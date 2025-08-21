@@ -8,12 +8,15 @@ import { useForm } from 'react-hook-form';
 
 export const HomeScreen = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const toggleModal = () => setIsOpen(prevState => !prevState);
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { itemName: undefined, price: undefined },
     mode: 'onBlur',
   });
+  const toggleModal = () => {
+    setIsOpen(prevState => !prevState);
+    reset();
+  };
 
   const onSubmit = () => {
     handleSubmit(() => undefined);
