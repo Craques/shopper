@@ -23,6 +23,12 @@
       "itemName": "Shirt",
       "price": 10,
       "bought": false
+    },
+    {
+      "id": "6345",
+      "itemName": "Water",
+      "price": 1,
+      "bought": false
     }
   ]
 }

@@ -13,11 +13,13 @@ import { Divider } from '@/components/ui/divider';
 import { GroceryListItem } from '@/src/components/GroceryListItem/GroceryListItem';
 import { useDeleteGroceryList } from '@/src/services/groceryList/deleteGroceryListItem';
 import { useAddGroceryListItem } from '@/src/services/groceryList/addGroceryListItem';
+import { ConfirmationModal } from '@/src/components/ConfirmationModal/ConfirmationModal';
 
 const ItemSeperator = () => <Divider className="bg-primary-200" />;
 
 export const HomeScreen = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const insets = useSafeAreaInsets();
   const { onDelete } = useDeleteGroceryList();
   const { onAddItem } = useAddGroceryListItem();
@@ -26,9 +28,14 @@ export const HomeScreen = () => {
     defaultValues: { itemName: undefined, price: undefined },
     mode: 'onBlur',
   });
+
   const toggleModal = () => {
     setIsOpen(prevState => !prevState);
     reset();
+  };
+
+  const toggleDeleteModal = () => {
+    setIsDeleteModalOpen(prevState => !prevState);
   };
 
   const onSubmit = async (data: Omit<TGroceryListItem, 'id' | 'bought'>) => {
@@ -42,7 +49,7 @@ export const HomeScreen = () => {
     return (
       <GroceryListItem
         item={item}
-        onPressDelete={onDelete}
+        onPressDelete={toggleDeleteModal}
         onPressEdit={() => undefined}
       />
     );
@@ -68,6 +75,23 @@ export const HomeScreen = () => {
         title="Add Item"
         isOpen={isOpen}
         toggleModal={toggleModal}
+      />
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        ctaTitle="Delete"
+        type="error"
+        onPress={() => undefined}
+        title="Delete Item?"
+        toggleModal={toggleDeleteModal}
+      />
+
+      <ConfirmationModal
+        isOpen
+        ctaTitle="Complete"
+        type="success"
+        onPress={() => undefined}
+        title="Mark as Bought?"
+        toggleModal={toggleDeleteModal}
       />
     </Box>
   );
