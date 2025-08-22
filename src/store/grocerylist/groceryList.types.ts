@@ -7,7 +7,7 @@ export interface GroceryListState {
 
 export interface GroceryListItem {
   itemName: string;
-  price: string;
+  price: number;
   id: number;
   bought: boolean;
 }

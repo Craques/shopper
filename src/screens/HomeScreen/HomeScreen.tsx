@@ -2,7 +2,7 @@ import { ModalComponent } from '@/src/components/Modal';
 import { NavigationBar } from '@/src/components/NavigationBar';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { ListRenderItem, FlatList } from 'react-native';
+import { ListRenderItem, FlatList, Alert } from 'react-native';
 import { schema } from './schema';
 import { useForm } from 'react-hook-form';
 import { useGetGroceryList } from '@/src/services/groceryList/getGroceryList';
@@ -12,6 +12,7 @@ import { Box } from '@/components/ui/box';
 import { Divider } from '@/components/ui/divider';
 import { GroceryListItem } from '@/src/components/GroceryListItem/GroceryListItem';
 import { useDeleteGroceryList } from '@/src/services/groceryList/deleteGroceryListItem';
+import { useAddGroceryListItem } from '@/src/services/groceryList/addGroceryListItem';
 
 const ItemSeperator = () => <Divider className="bg-primary-200" />;
 
@@ -19,6 +20,7 @@ export const HomeScreen = () => {
   const [isOpen, setIsOpen] = useState(false);
   const insets = useSafeAreaInsets();
   const { onDelete } = useDeleteGroceryList();
+  const { onAddItem } = useAddGroceryListItem();
   const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { itemName: undefined, price: undefined },
@@ -29,8 +31,9 @@ export const HomeScreen = () => {
     reset();
   };
 
-  const onSubmit = () => {
-    handleSubmit(() => undefined);
+  const onSubmit = async (data: Omit<TGroceryListItem, 'id' | 'bought'>) => {
+    await onAddItem({ itemName: data.itemName, price: Number(data.price) });
+    toggleModal();
   };
 
   const { groceryList } = useGetGroceryList();
@@ -61,7 +64,7 @@ export const HomeScreen = () => {
       </Box>
       <ModalComponent
         control={control}
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         title="Add Item"
         isOpen={isOpen}
         toggleModal={toggleModal}

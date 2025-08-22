@@ -12,12 +12,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootStack } from './src/Navigation';
 import { NavigationContainer } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Toast from 'react-native-toast-message';
 
 const client = new QueryClient();
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
-
   return (
     <QueryClientProvider client={client}>
       <GluestackUIProvider mode={isDarkMode ? 'dark' : 'light'}>
@@ -28,6 +28,7 @@ function App() {
           </NavigationContainer>
         </SafeAreaProvider>
       </GluestackUIProvider>
+      <Toast topOffset={60} />
     </QueryClientProvider>
   );
 }
