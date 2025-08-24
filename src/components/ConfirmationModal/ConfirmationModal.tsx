@@ -11,6 +11,7 @@ import {
   ModalHeader,
 } from '@/components/ui/modal';
 import { ConfirmationModalProps } from './ConfirmationModal.types';
+import { styles } from './ConfirmationModal.styles';
 
 export const ConfirmationModal = ({
   isOpen,
@@ -33,22 +34,22 @@ export const ConfirmationModal = ({
           </ModalCloseButton>
         </ModalHeader>
         <ModalCloseButton className="text-secondary-400" />
-        <Divider className="bg-primary-300" style={{ marginTop: 8 }} />
-        <Box style={{ marginTop: 16 }} />
+        <Divider className="bg-primary-300" style={styles.smallMargin} />
+        <Box style={styles.mediumMargin} />
 
         <Button
           onPress={onPress}
           size="lg"
           className={`bg-${type}-300`}
-          style={{ marginTop: 16 }}
+          style={styles.mediumMargin}
         >
-          <ButtonText style={{ color: 'white' }}>{ctaTitle}</ButtonText>
+          <ButtonText style={styles.text}>{ctaTitle}</ButtonText>
         </Button>
         <Button
           onPress={toggleModal}
           size="lg"
           className="bg-secondary-0"
-          style={{ marginTop: 8 }}
+          style={styles.smallMargin}
         >
           <ButtonText className="text-primary-900">Cancel</ButtonText>
         </Button>

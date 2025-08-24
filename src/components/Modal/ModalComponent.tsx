@@ -12,6 +12,7 @@ import { Button, ButtonText } from '@/components/ui/button';
 import { Divider } from '@/components/ui/divider';
 import { FormInput } from '../FormInput/FormInput';
 import { Box } from '@/components/ui/box';
+import { styles } from './ModalComponent.styles';
 
 export const ModalComponent = ({
   title,
@@ -34,27 +35,27 @@ export const ModalComponent = ({
           </ModalCloseButton>
         </ModalHeader>
         <ModalCloseButton className="text-secondary-400" />
-        <Divider className="bg-primary-300" style={{ marginTop: 8 }} />
-        <Box style={{ marginTop: 16 }} />
+        <Divider className="bg-primary-300" style={styles.smallMargin} />
+        <Box style={styles.mediumMargin} />
         <FormInput
           label="Item Name"
           placeholder="Item Name"
           name={'itemName'}
           control={control}
         />
-        <Box style={{ marginTop: 8 }} />
+        <Box style={styles.smallMargin} />
         <FormInput
           label="Price"
           placeholder="Price"
           name={'price'}
           control={control}
         />
-        <Box style={{ marginTop: 16 }} />
+        <Box style={styles.mediumMargin} />
         <Button
           onPress={onSubmit}
           size="lg"
           className="bg-secondary-0"
-          style={{ marginTop: 16 }}
+          style={styles.mediumMargin}
         >
           <ButtonText className="text-primary-900">{ctaTitle}</ButtonText>
         </Button>

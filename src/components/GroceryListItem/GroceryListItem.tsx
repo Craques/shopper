@@ -15,19 +15,27 @@ import {
 import { CheckIcon } from '@/components/ui/icon';
 import { Pressable } from '@/components/ui/pressable';
 import { TouchableOpacity, View } from 'react-native';
+import { styles } from './GroceryList.styles';
 
 export const GroceryListItem = ({
   item,
   onPressDelete,
   onPressEdit,
+  onPressBought,
 }: GroceryListItemProps) => {
   return (
     <>
       <Box
         className="flex-1 flex-row justify-between bg-primary-400 items-center"
-        style={{ paddingVertical: 16, paddingHorizontal: 16 }}
+        style={styles.container}
       >
-        <Text className="text-secondary-100 capitalize">{item.itemName}</Text>
+        <Text
+          className={`text-secondary-100 capitalize ${
+            item.bought ? 'line-through' : ''
+          } `}
+        >
+          {item.itemName}
+        </Text>
         <HStack className="items-center" space="lg" reversed>
           <TouchableOpacity
             onPress={onPressDelete}
@@ -48,7 +56,7 @@ export const GroceryListItem = ({
               pointerEvents={'none'}
             />
           </Pressable>
-          <Pressable onPress={onPressEdit}>
+          <Pressable onPress={onPressBought}>
             <View pointerEvents="none" onTouchEnd={e => e.stopPropagation()}>
               <Checkbox
                 isChecked={item.bought}

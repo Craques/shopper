@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 
 export const useGetGroceryList = () => {
   const { appEnvironment } = useAppEnvironment();
-  const { setGroceryList, groceryList } = useGroceryListStore();
-  const { data, isError, isSuccess } = useQuery({
+  const { setGroceryList, groceryList, setLoading } = useGroceryListStore();
+  const { data, isError, isSuccess, isLoading } = useQuery({
     queryKey: ['groceryList'],
     queryFn: async () => {
       const response = await fetch(`${appEnvironment.baseUrl}/groceryList`);
@@ -20,6 +20,11 @@ export const useGetGroceryList = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, data]);
+
+  useEffect(() => {
+    setLoading(isLoading);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
 
   useEffect(() => {
     if (isError) {
