@@ -2,6 +2,19 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 # Getting Started
 
+## Step 0: Install the dependencies and run the server
+You will need to clone this project and install the dependencies, this project is using npm so you should be able to run:
+
+```sh
+    npm install
+```
+
+You will need to run the server to be able to save and update grocery items
+
+```sh
+    npx json-server db.json
+```
+
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
 ## Step 1: Start Metro
