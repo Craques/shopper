@@ -17,6 +17,12 @@
       "itemName": "Socks",
       "price": 10,
       "bought": true
+    },
+    {
+      "id": "e65d",
+      "itemName": "Water",
+      "price": 1,
+      "bought": false
     }
   ]
 }

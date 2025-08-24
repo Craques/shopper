@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 export const useGetGroceryList = () => {
   const { appEnvironment } = useAppEnvironment();
   const { setGroceryList, groceryList, setLoading } = useGroceryListStore();
-  const { data, isError, isSuccess, isLoading } = useQuery({
+  const { data, isError, isSuccess, isLoading, refetch } = useQuery({
     queryKey: ['groceryList'],
     queryFn: async () => {
       const response = await fetch(`${appEnvironment.baseUrl}/groceryList`);
@@ -32,5 +32,5 @@ export const useGetGroceryList = () => {
     }
   }, [isError]);
 
-  return { groceryList };
+  return { groceryList, refetch };
 };

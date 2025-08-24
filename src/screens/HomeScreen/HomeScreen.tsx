@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { ListRenderItem, FlatList } from 'react-native';
 import { schema } from './schema';
 import { useForm } from 'react-hook-form';
-import { useGetGroceryList } from '@/src/services/groceryList/getGroceryList';
 import { GroceryListItem as TGroceryListItem } from '@/src/store/grocerylist/groceryList.types';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Box } from '@/components/ui/box';
@@ -18,7 +17,8 @@ import { useGroceryList } from '@/src/services/groceryList/useGroceryList';
 const ItemSeperator = () => <Divider className="bg-primary-200" />;
 
 export const HomeScreen = () => {
-  const { loading, onAddItem, onDelete, onUpdateItem } = useGroceryList();
+  const { loading, onAddItem, onDelete, onUpdateItem, groceryList, refetch } =
+    useGroceryList();
   const [isOpen, setIsOpen] = useState(false);
   const [isBoughtModalOpen, setIsBoughtModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -66,8 +66,6 @@ export const HomeScreen = () => {
     toggleModal(undefined);
   };
 
-  const { groceryList } = useGetGroceryList();
-
   const rendeItem: ListRenderItem<TGroceryListItem> = ({ item }) => {
     return (
       <GroceryListItem
@@ -92,6 +90,8 @@ export const HomeScreen = () => {
           renderItem={rendeItem}
           keyExtractor={item => item.id?.toString()}
           ItemSeparatorComponent={ItemSeperator}
+          onRefresh={refetch}
+          refreshing={false}
         />
       </Box>
       <ModalComponent
