@@ -22,7 +22,10 @@ function App() {
     <QueryClientProvider client={client}>
       <GluestackUIProvider mode={isDarkMode ? 'dark' : 'light'}>
         <SafeAreaProvider>
-          <StatusBar barStyle={isDarkMode ? 'dark-content' : 'light-content'} />
+          <StatusBar
+            className="bg-primary-500"
+            barStyle={isDarkMode ? 'dark-content' : 'light-content'}
+          />
           <NavigationContainer>
             <RootStack />
           </NavigationContainer>
