@@ -33,12 +33,10 @@ export const HomeScreen = () => {
   });
 
   const toggleModal = (item: TGroceryListItem | undefined) => {
-    console.log('ITEM >>>', item);
     setSelectedItem(item);
     if (item?.id) {
       reset({ itemName: item.itemName, price: item.price.toString() });
     } else {
-      console.log('GOT HERE');
       reset({ itemName: undefined, price: undefined });
     }
     setIsOpen(prevState => !prevState);
