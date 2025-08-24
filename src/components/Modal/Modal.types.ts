@@ -6,4 +6,5 @@ export interface ModalComponentProps {
   toggleModal: () => void;
   control: Control<any>;
   onSubmit: () => void;
+  ctaTitle: string;
 }

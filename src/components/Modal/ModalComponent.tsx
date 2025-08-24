@@ -19,6 +19,7 @@ export const ModalComponent = ({
   toggleModal,
   control,
   onSubmit,
+  ctaTitle,
 }: ModalComponentProps): React.ReactNode => {
   return (
     <Modal isOpen={isOpen}>
@@ -55,7 +56,7 @@ export const ModalComponent = ({
           className="bg-secondary-0"
           style={{ marginTop: 16 }}
         >
-          <ButtonText className="text-primary-900">Add item</ButtonText>
+          <ButtonText className="text-primary-900">{ctaTitle}</ButtonText>
         </Button>
       </ModalContent>
     </Modal>

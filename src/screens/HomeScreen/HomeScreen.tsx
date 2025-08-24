@@ -2,7 +2,7 @@ import { ModalComponent } from '@/src/components/Modal';
 import { NavigationBar } from '@/src/components/NavigationBar';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { ListRenderItem, FlatList, Alert } from 'react-native';
+import { ListRenderItem, FlatList } from 'react-native';
 import { schema } from './schema';
 import { useForm } from 'react-hook-form';
 import { useGetGroceryList } from '@/src/services/groceryList/getGroceryList';
@@ -14,14 +14,20 @@ import { GroceryListItem } from '@/src/components/GroceryListItem/GroceryListIte
 import { useDeleteGroceryList } from '@/src/services/groceryList/deleteGroceryListItem';
 import { useAddGroceryListItem } from '@/src/services/groceryList/addGroceryListItem';
 import { ConfirmationModal } from '@/src/components/ConfirmationModal/ConfirmationModal';
+import { useUpdateGroceryListItem } from '@/src/services/groceryList/updateGroceryListItem';
 
 const ItemSeperator = () => <Divider className="bg-primary-200" />;
 
 export const HomeScreen = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isBoughtModalOpen, setIsBoughtModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<
+    TGroceryListItem | undefined
+  >();
   const insets = useSafeAreaInsets();
   const { onDelete } = useDeleteGroceryList();
+  const { onUpdateItem } = useUpdateGroceryListItem();
   const { onAddItem } = useAddGroceryListItem();
   const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(schema),
@@ -29,18 +35,36 @@ export const HomeScreen = () => {
     mode: 'onBlur',
   });
 
-  const toggleModal = () => {
+  const toggleModal = (item: TGroceryListItem | undefined) => {
+    setSelectedItem(item);
+    if (item?.id) {
+      reset({ itemName: item.itemName, price: item.price.toString() });
+    } else {
+      reset();
+    }
     setIsOpen(prevState => !prevState);
-    reset();
   };
 
-  const toggleDeleteModal = () => {
+  const toggleBoughtModal = (item: TGroceryListItem | undefined) => {
+    setSelectedItem(item);
+    setIsBoughtModalOpen(prevState => !prevState);
+  };
+  const toggleDeleteModal = (item: TGroceryListItem | undefined) => {
+    setSelectedItem(item);
     setIsDeleteModalOpen(prevState => !prevState);
   };
 
   const onSubmit = async (data: Omit<TGroceryListItem, 'id' | 'bought'>) => {
-    await onAddItem({ itemName: data.itemName, price: Number(data.price) });
-    toggleModal();
+    if (selectedItem && selectedItem.id) {
+      await onUpdateItem({
+        ...selectedItem,
+        itemName: data.itemName,
+        price: Number(data.price),
+      });
+    } else {
+      await onAddItem({ itemName: data.itemName, price: Number(data.price) });
+    }
+    toggleModal(undefined);
   };
 
   const { groceryList } = useGetGroceryList();
@@ -49,15 +73,16 @@ export const HomeScreen = () => {
     return (
       <GroceryListItem
         item={item}
-        onPressDelete={toggleDeleteModal}
-        onPressEdit={() => undefined}
+        onPressDelete={() => toggleDeleteModal(item)}
+        onPressEdit={() => toggleModal(item)}
+        onPressBought={() => toggleBoughtModal(item)}
       />
     );
   };
 
   return (
     <Box className="flex-1">
-      <NavigationBar onPressAdd={toggleModal} />
+      <NavigationBar onPressAdd={() => toggleModal(undefined)} />
       <Box
         className="bg-primary-600 flex-1"
         style={{ paddingBottom: insets.bottom }}
@@ -72,26 +97,37 @@ export const HomeScreen = () => {
       <ModalComponent
         control={control}
         onSubmit={handleSubmit(onSubmit)}
-        title="Add Item"
+        title={selectedItem?.id ? 'Edit Item' : 'Add Item'}
         isOpen={isOpen}
-        toggleModal={toggleModal}
+        toggleModal={() => toggleModal(undefined)}
+        ctaTitle={selectedItem?.id ? 'Edit' : 'Add'}
       />
+      <ConfirmationModal
+        isOpen={isBoughtModalOpen}
+        ctaTitle={selectedItem?.bought ? 'Incomplete' : 'Complete'}
+        type={selectedItem?.bought ? 'warning' : 'success'}
+        onPress={() => {
+          if (selectedItem) {
+            onUpdateItem({ ...selectedItem, bought: !selectedItem.bought });
+            toggleBoughtModal(undefined);
+          }
+        }}
+        title="Mark as Bought?"
+        toggleModal={() => toggleBoughtModal(undefined)}
+      />
+
       <ConfirmationModal
         isOpen={isDeleteModalOpen}
         ctaTitle="Delete"
         type="error"
-        onPress={() => undefined}
+        onPress={() => {
+          if (selectedItem) {
+            onDelete(selectedItem?.id);
+          }
+          toggleDeleteModal(undefined);
+        }}
         title="Delete Item?"
-        toggleModal={toggleDeleteModal}
-      />
-
-      <ConfirmationModal
-        isOpen
-        ctaTitle="Complete"
-        type="success"
-        onPress={() => undefined}
-        title="Mark as Bought?"
-        toggleModal={toggleDeleteModal}
+        toggleModal={() => toggleDeleteModal(undefined)}
       />
     </Box>
   );

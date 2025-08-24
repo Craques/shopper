@@ -1,16 +1,10 @@
 {
   "groceryList": [
     {
-      "id": "0d07",
-      "itemName": "Jacket",
-      "price": 500,
-      "bought": false
-    },
-    {
       "id": "efac",
-      "itemName": "Trousers",
+      "itemName": "Hat",
       "price": 1,
-      "bought": false
+      "bought": true
     },
     {
       "id": "feb0",
@@ -20,15 +14,9 @@
     },
     {
       "id": "adbf",
-      "itemName": "Shirt",
+      "itemName": "Socks",
       "price": 10,
-      "bought": false
-    },
-    {
-      "id": "6345",
-      "itemName": "Water",
-      "price": 1,
-      "bought": false
+      "bought": true
     }
   ]
 }
