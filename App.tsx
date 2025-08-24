@@ -11,19 +11,28 @@ import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootStack } from './src/Navigation';
 import { NavigationContainer } from '@react-navigation/native';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Toast from 'react-native-toast-message';
+
+const client = new QueryClient();
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
-
   return (
-    <GluestackUIProvider mode={isDarkMode ? 'dark' : 'light'}>
-      <SafeAreaProvider>
-        <StatusBar barStyle={isDarkMode ? 'dark-content' : 'light-content'} />
-        <NavigationContainer>
-          <RootStack />
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </GluestackUIProvider>
+    <QueryClientProvider client={client}>
+      <GluestackUIProvider mode={isDarkMode ? 'dark' : 'light'}>
+        <SafeAreaProvider>
+          <StatusBar
+            className="bg-primary-500"
+            barStyle={isDarkMode ? 'dark-content' : 'light-content'}
+          />
+          <NavigationContainer>
+            <RootStack />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </GluestackUIProvider>
+      <Toast topOffset={60} />
+    </QueryClientProvider>
   );
 }
 
