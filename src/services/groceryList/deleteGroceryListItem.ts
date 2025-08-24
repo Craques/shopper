@@ -8,7 +8,7 @@ export const useDeleteGroceryList = () => {
   const queryClient = useQueryClient();
   const { appEnvironment } = useAppEnvironment();
   const { setLoading } = useGroceryListStore();
-  const { isPending, data, mutateAsync } = useMutation({
+  const { isPending, mutateAsync } = useMutation({
     mutationKey: ['deleteGroceryList'],
     mutationFn: async ({ id }: { id: number }) => {
       const response = await fetch(
@@ -37,10 +37,8 @@ export const useDeleteGroceryList = () => {
   });
 
   useEffect(() => {
-    if (isPending) {
-      setLoading(isPending);
-      console.log('DATA >>>', data);
-    }
+    setLoading(isPending);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPending]);
 

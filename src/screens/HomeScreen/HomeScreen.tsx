@@ -11,14 +11,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Box } from '@/components/ui/box';
 import { Divider } from '@/components/ui/divider';
 import { GroceryListItem } from '@/src/components/GroceryListItem/GroceryListItem';
-import { useDeleteGroceryList } from '@/src/services/groceryList/deleteGroceryListItem';
-import { useAddGroceryListItem } from '@/src/services/groceryList/addGroceryListItem';
 import { ConfirmationModal } from '@/src/components/ConfirmationModal/ConfirmationModal';
-import { useUpdateGroceryListItem } from '@/src/services/groceryList/updateGroceryListItem';
+import { LoadingOverlay } from '@/src/components/LoadingOverlay/LoadingOverlay';
+import { useGroceryList } from '@/src/services/groceryList/useGroceryList';
 
 const ItemSeperator = () => <Divider className="bg-primary-200" />;
 
 export const HomeScreen = () => {
+  const { loading, onAddItem, onDelete, onUpdateItem } = useGroceryList();
   const [isOpen, setIsOpen] = useState(false);
   const [isBoughtModalOpen, setIsBoughtModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -26,9 +26,6 @@ export const HomeScreen = () => {
     TGroceryListItem | undefined
   >();
   const insets = useSafeAreaInsets();
-  const { onDelete } = useDeleteGroceryList();
-  const { onUpdateItem } = useUpdateGroceryListItem();
-  const { onAddItem } = useAddGroceryListItem();
   const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { itemName: undefined, price: undefined },
@@ -84,6 +81,7 @@ export const HomeScreen = () => {
 
   return (
     <Box className="flex-1">
+      <LoadingOverlay loading={loading} />
       <NavigationBar onPressAdd={() => toggleModal(undefined)} />
       <Box
         className="bg-primary-600 flex-1"

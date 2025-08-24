@@ -39,9 +39,8 @@ export const useAddGroceryListItem = () => {
   });
 
   useEffect(() => {
-    if (isPending) {
-      setLoading(isPending);
-    }
+    setLoading(isPending);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPending, data]);
 
